@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { createForm } from "../../services/FormService";
+import { toast } from "react-toastify";
 
 function Form() {
   const [name, setName] = useState("");
@@ -8,16 +10,26 @@ function Form() {
   const [file, setFile] = useState(null);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();    
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Consent:", consent);
-    console.log("File:", file);
+    e.preventDefault();
+    try {
+      await createForm(name, email, consent, file);
+      toast.success("Form submitted successfully!");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        "Error submitting form. Please try again.";
+      toast.error(message);
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit} >
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
             <span>Name</span>
