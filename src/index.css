@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+  logs: true;
+}
+.bg-custom-gray {
+    background-color: rgb(242, 242, 242);
+}
+.bg-button{
+    background-color: rgb(125, 71, 201);
+}
